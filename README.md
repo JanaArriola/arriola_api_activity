@@ -24,21 +24,21 @@ README.md Questions:
 Date: 03-10-26
 
 **1. Authentication vs Authorization**
-Question: What is the difference between Authentication and Authorization in our code?
-Answer:
+-Question: What is the difference between Authentication and Authorization in our code?
+-Answer:
 Authentication is about checking who the user is. In our project, this happens when a user logs in: we check if the email and password are correct, and if they are, we create a JWT for that user.
 Authorization is about checking what the user is allowed to do. In our project, this is handled by the authorize middleware, which reads the user’s role from the JWT (for example admin, manager, or user) and then decides if that role is allowed to access a specific route, like creating or deleting a room.
 
 
 **2. Security (bcrypt)**
-Question: Why did we use bcryptjs instead of saving passwords as plain text in MongoDB?
-Answer:
+-Question: Why did we use bcryptjs instead of saving passwords as plain text in MongoDB?
+-Answer:
 We used bcryptjs so that passwords are hashed before they are saved in the database. This means the real password is turned into a long, unreadable string.
 If someone ever gets access to the database, they will not see the actual passwords, only the hashed versions. This makes our users’ accounts much safer than if we stored plain text passwords.
 
 
 **3. JWT and the protect middleware**
-Question: What does the protect middleware do when it receives a JWT from the client?
-Answer:
+-Question: What does the protect middleware do when it receives a JWT from the client?
+-Answer:
 When the client sends a JWT in the Authorization: Bearer <token> header, the protect middleware first reads the token from the header. Then it uses jwt.verify with our JWT_SECRET to check if the token is valid and not tampered with.
 If the token is valid, it decodes the token, finds the user in the database using the id inside the token, and attaches that user to req.user. If the token is missing or invalid, the middleware stops the request and returns a 401 “Not authorized” response.
